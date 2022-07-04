@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CRUD_de_Alumnos.MainPage"
+             xmlns:viewModel="clr-namespace:CRUD_de_Alumnos.ViewModels">
+
+    <ContentPage.BindingContext>
+        <viewModel:MainViewModel></viewModel:MainViewModel>
+    </ContentPage.BindingContext>
+
+    <StackLayout Padding="15">
+
+        <Label Text="ALUMNOS" TextColor="#68C69E" FontSize="Title" HorizontalTextAlignment="Center" FontAttributes="Bold"></Label>
+
+
+        <Label>Nombre del Alumno:</Label>
+        <Entry Placeholder="Ana Jara" Text="{Binding Nombre}"></Entry>
+        <Label>Promedio de Notas:</Label>
+        <Entry Placeholder="15.8" Text="{Binding Promedio}"></Entry>
+        <Label>Fecha de Cumpleaños:</Label>
+        <DatePicker MaximumDate="1/1/2004" Format="dd-MM-yyyy" Date="{Binding Fecha}"></DatePicker>
+
+        <StackLayout Orientation="Horizontal">
+            <Label>Sexo:</Label>
+            <RadioButton Content="Femenino"
+                             CheckedChanged="SexoYN" IsChecked="True"/>
+            <RadioButton Content="Masculino"
+                             CheckedChanged="SexoYN"/>
+            <Entry x:Name="label" Text="{Binding Sexo}" IsVisible="false"></Entry>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Button CornerRadius="150" Text="Agregar" BackgroundColor="#62BACA" FontAttributes="Bold" Command="{Binding InsertRowCommand}" TextColor="Black"></Button>
+            <Button CornerRadius="100" Text="Limpiar lista" BackgroundColor="#199792" FontAttributes="Bold" Command="{Binding DeleteAllRowCommand}" TextColor="Black"></Button>
+        </StackLayout>
+
+        <ListView ItemsSource="{Binding ListAlumno}" HasUnevenRows="True" BackgroundColor="#CCE1D8">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame  CornerRadius="10" Margin="2" HorizontalOptions="FillAndExpand" BackgroundColor="#FBD9C6">
+
+                            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding AlumnoNombre}" TextColor="Black"></Label>
+                                <Label Text="{Binding AlumnoPromedio}"></Label>
+                                <Label Text="{Binding AlumnoFecha,StringFormat='{0:dd-MM-yyyy}'}"></Label>
+                                <Label Text="{Binding AlumnoSexo}"></Label>
+
+                            </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="UpdateRow_Tapped" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                <SwipeGestureRecognizer Swiped="DeleteRow_Swiped" Direction="Right" CommandParameter="{Binding .}"></SwipeGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+
+</ContentPage>
